@@ -2,8 +2,13 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { getAllCabins } from "../../services/cabinApi";
+import Cabin from "./Cabin";
+import OverLay from "../../ui/OverLay";
+import { useState } from "react";
 
 const CabinTable = () => {
+    const [isModelOpen, setIsModelOpen] = useState(false);
+
     // Queries
     const {
         data: cabins,
@@ -13,6 +18,10 @@ const CabinTable = () => {
         queryKey: ["cabins"],
         queryFn: getAllCabins,
     });
+
+    function onCloseModel() {
+        setIsModelOpen(false);
+    }
 
     console.log(cabins, isError, isLoading);
 
@@ -32,24 +41,14 @@ const CabinTable = () => {
 
             <section className='table_content' role='row'>
                 {cabins?.map((cabin) => (
-                    <div
-                        key={cabin.id}
-                        className='grid grid-cols-6 text-center my-3 border-b-gray-300 border-b items-center '
-                    >
-                        <img
-                            src={cabin.image}
-                            height={100}
-                            width={100}
-                            alt={cabin.name}
-                        />
-                        <span>{cabin.name}</span>
-                        <span>{cabin.maxCapacity}</span>
-                        <span>{cabin.regularPrice}</span>
-                        <span>{cabin.discount ? cabin.discount : "-"}</span>
-                        <button>Add</button>
-                    </div>
+                    <Cabin cabin={cabin} key={cabin.id} setIsModelOpen={ setIsModelOpen} />
                 ))}
             </section>
+            {isModelOpen && (
+                <OverLay onClose={onCloseModel}>
+                    <h1>Hello I am content</h1>
+                </OverLay>
+            )}
         </div>
     );
 };
