@@ -1,0 +1,25 @@
+/** @format */
+
+import { supabase } from "../utils/supabase";
+
+export interface Cabins {
+    id: number | null;
+    name: string;
+    regularPrice: number;
+    maxCapacity: number;
+    discount: number;
+    description: string;
+    image: string;
+}
+
+export async function getAllCabins() {
+    try {
+        let { data: cabins }: { data: Cabins[] | null } = await supabase
+            .from("cabins")
+            .select("*");
+
+        return cabins;
+    } catch (error) {
+        console.log(error);
+    }
+}
