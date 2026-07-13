@@ -2,7 +2,6 @@
 
 import { Link } from "react-router-dom";
 import { sideBarLinks } from "../data/links";
-import { LiaHomeSolid } from "react-icons/lia";
 
 const SideBar = () => {
     return (

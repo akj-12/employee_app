@@ -1,7 +1,15 @@
 /** @format */
 
+import CabinHeader from "../features/cabins/CabinHeader";
+import CabinTable from "../features/cabins/CabinTable";
+
 const Cabins = () => {
-    return <div>Cabins</div>;
+    return (
+        <>
+            <CabinHeader />
+            <CabinTable />
+        </>
+    );
 };
 
 export default Cabins;
