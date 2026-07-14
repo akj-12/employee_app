@@ -1,6 +1,7 @@
 /** @format */
 
 import { useForm, type SubmitHandler } from "react-hook-form";
+import { createCabin } from "../../services/cabinApi";
 
 /** @format */
 type Inputs = {
@@ -9,6 +10,7 @@ type Inputs = {
     maxCapacity: number;
     regularPrice: number;
     description: string;
+    image: string;
 };
 
 const CabinForm = () => {
@@ -16,7 +18,10 @@ const CabinForm = () => {
 
     const { errors } = formState;
 
-    const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        const res = await createCabin(data);
+        console.log(res);
+    };
 
     return (
         <div className='max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-sm'>
@@ -56,11 +61,18 @@ const CabinForm = () => {
                         </label>
                         <input
                             id='image'
-                            name='image'
                             type='file'
                             accept='image/*'
+                            {...register("image", {
+                                required: "This feild is required",
+                            })}
                             className='block w-full text-sm text-slate-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-slate-100 file:text-slate-900 hover:file:bg-slate-200'
                         />
+                        {errors.image?.message && (
+                            <span className='text-red-500 mt-1'>
+                                {errors?.image.message}
+                            </span>
+                        )}
                     </div>
                     <div>
                         <label
@@ -74,6 +86,7 @@ const CabinForm = () => {
                             type='number'
                             {...register("regularPrice", {
                                 required: "This feild is required",
+                                valueAsNumber: true,
                             })}
                             min='1'
                             className='w-full rounded-lg border border-slate-300 px-4 py-3 text-slate-900 focus:border-sky-500 focus:ring-sky-500'
@@ -98,6 +111,7 @@ const CabinForm = () => {
                             id='discount'
                             {...register("discount", {
                                 required: "This feild is required",
+                                valueAsNumber: true,
                                 validate: (currentVal, values) => {
                                     if (
                                         currentVal > Number(values.regularPrice)
@@ -129,6 +143,7 @@ const CabinForm = () => {
                             id='maxCapacity'
                             {...register("maxCapacity", {
                                 required: "This feild is required",
+                                valueAsNumber: true,
                             })}
                             type='number'
                             min='1'

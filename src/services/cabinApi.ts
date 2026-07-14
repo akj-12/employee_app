@@ -3,7 +3,7 @@
 import { supabase } from "../utils/supabase";
 
 export interface Cabins {
-    id: number | null;
+    id?: number | null;
     name: string;
     regularPrice: number;
     maxCapacity: number;
@@ -21,5 +21,13 @@ export async function getAllCabins() {
         return cabins;
     } catch (error) {
         console.log(error);
+    }
+}
+
+export async function createCabin(data: Cabins) {
+    try {
+        console.log(data);
+    } catch (error) {
+        console.error(error);
     }
 }
