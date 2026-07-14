@@ -24,8 +24,6 @@ const CabinTable = () => {
         setIsModelOpen(false);
     }
 
-    console.log(cabins, isError, isLoading);
-
     return (
         <div role='table'>
             <header
