@@ -18,7 +18,7 @@ const OverLay: React.FC<OverLayProps> = ({ children, onClose }) => {
             />
 
             {/* modal */}
-            <div className='relative z-10 max-w-lg w-full mx-4 bg-white rounded-lg shadow-lg p-6 text-black'>
+            <div className='relative z-10 max-w-2xl w-full mx-4 bg-white rounded-lg shadow-lg p-10 text-black'>
                 <button
                     type='button'
                     onClick={onClose}

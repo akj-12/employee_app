@@ -5,6 +5,7 @@ import { getAllCabins } from "../../services/cabinApi";
 import Cabin from "./Cabin";
 import OverLay from "../../ui/OverLay";
 import { useState } from "react";
+import CabinForm from "./CabinForm";
 
 const CabinTable = () => {
     const [isModelOpen, setIsModelOpen] = useState(false);
@@ -41,12 +42,16 @@ const CabinTable = () => {
 
             <section className='table_content' role='row'>
                 {cabins?.map((cabin) => (
-                    <Cabin cabin={cabin} key={cabin.id} setIsModelOpen={ setIsModelOpen} />
+                    <Cabin
+                        cabin={cabin}
+                        key={cabin.id}
+                        setIsModelOpen={setIsModelOpen}
+                    />
                 ))}
             </section>
             {isModelOpen && (
                 <OverLay onClose={onCloseModel}>
-                    <h1>Hello I am content</h1>
+                    <CabinForm />
                 </OverLay>
             )}
         </div>
