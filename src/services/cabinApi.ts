@@ -26,8 +26,18 @@ export async function getAllCabins() {
 
 export async function createCabin(data: Cabins) {
     try {
-        console.log(data);
+        const { data: createdCabin, error } = await supabase
+            .from("cabins")
+            .insert([{ ...data }])
+            .select();
+
+        if (error) {
+            throw new Error("Cabin could not be created");
+        }
+
+        return createdCabin;
     } catch (error) {
         console.error(error);
+        throw error;
     }
 }

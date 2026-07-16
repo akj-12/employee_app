@@ -1,15 +1,23 @@
 /** @format */
 
+import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createCabin } from "../../services/cabinApi";
 import FormField from "../../ui/FormField";
+import Toast from "../../ui/Toast";
 import type { Inputs } from "../../types/types";
 
 const classForInput =
     "w-full rounded-lg border border-slate-300 px-4 py-3 text-slate-900 focus:border-sky-500 focus:ring-sky-500";
 
 const CabinForm = () => {
+    const [toast, setToast] = useState<{
+        message?: string;
+        error?: Error | string | null;
+        type: "success" | "error" | "info";
+    } | null>(null);
+
     const { register, handleSubmit, formState } = useForm<Inputs>();
     // Access the client
     const queryClient = useQueryClient();
@@ -20,6 +28,16 @@ const CabinForm = () => {
         onSuccess: () => {
             // Invalidate and refetch
             queryClient.invalidateQueries({ queryKey: ["todos"] });
+            setToast({
+                message: "Cabin created successfully!",
+                type: "success",
+            });
+        },
+        onError: (err: any) => {
+            setToast({
+                error: err,
+                type: "error",
+            });
         },
     });
 
@@ -160,6 +178,14 @@ const CabinForm = () => {
                     Add Cabin
                 </button>
             </form>
+            {toast && (
+                <Toast
+                    message={toast.message}
+                    error={toast.error}
+                    type={toast.type}
+                    onClose={() => setToast(null)}
+                />
+            )}
         </div>
     );
 };
