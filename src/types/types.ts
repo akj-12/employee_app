@@ -5,5 +5,5 @@ export type Inputs = {
     maxCapacity: number;
     regularPrice: number;
     description: string;
-    image: string;
+    image: string | FileList;
 };
