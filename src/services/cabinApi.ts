@@ -20,7 +20,7 @@ export async function getAllCabins() {
 
         return cabins;
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 

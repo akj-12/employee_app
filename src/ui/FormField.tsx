@@ -1,7 +1,7 @@
 /** @format */
 
 import type { FieldErrors } from "react-hook-form";
-import type { Inputs } from "../features/cabins/CabinForm";
+import type { Inputs } from "../types/types";
 
 type Props = {
     errors: FieldErrors<Inputs>;

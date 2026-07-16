@@ -1,25 +1,16 @@
 /** @format */
 
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { createCabin } from "../../services/cabinApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createCabin } from "../../services/cabinApi";
 import FormField from "../../ui/FormField";
-
-/** @format */
-export type Inputs = {
-    name: string;
-    discount: number;
-    maxCapacity: number;
-    regularPrice: number;
-    description: string;
-    image: string;
-};
+import type { Inputs } from "../../types/types";
 
 const classForInput =
     "w-full rounded-lg border border-slate-300 px-4 py-3 text-slate-900 focus:border-sky-500 focus:ring-sky-500";
 
 const CabinForm = () => {
-    const { register, formState, getValues } = useForm<Inputs>();
+    const { register, handleSubmit, formState } = useForm<Inputs>();
     // Access the client
     const queryClient = useQueryClient();
 
@@ -34,18 +25,8 @@ const CabinForm = () => {
 
     const { errors } = formState;
 
-    /**
-     * onSubmit={handleSubmit(onSubmit)}
-     * const onSubmit: SubmitHandler<Inputs> = async (data) => {
-           const res = await createCabin(data);
-           console.log(res);
-        };
-     */
-
-    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        const values = getValues();
-        mutation.mutate(values);
+    const onSubmit: SubmitHandler<Inputs> = (data) => {
+        mutation.mutate(data);
     };
 
     return (
@@ -53,7 +34,7 @@ const CabinForm = () => {
             <h2 className='text-2xl font-semibold text-slate-900 mb-5'>
                 Create Cabin
             </h2>
-            <form className='space-y-6'>
+            <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
                 <div>
                     <FormField id='name' label='Cabin Name' errors={errors}>
                         <input
@@ -175,7 +156,6 @@ const CabinForm = () => {
                 <button
                     type='submit'
                     className='inline-flex items-center justify-center rounded-lg bg-gray-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-gray-700'
-                    onClick={handleSubmit}
                 >
                     Add Cabin
                 </button>
